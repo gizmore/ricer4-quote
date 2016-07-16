@@ -2,6 +2,7 @@ module Ricer4::Plugins::Quote
   class Entity < ActiveRecord::Base
     
     include Ricer4::Include::Readable
+    arm_i18n
     
     self.table_name = "quotes"
     
@@ -49,7 +50,11 @@ module Ricer4::Plugins::Quote
     ################
     ### ListItem ###
     ################
-    def display_date; I18n.l(self.created_at, :format => :short); end
+    def self.human
+      "Quote"
+    end
+    
+    def display_date; l(self.created_at, :format => :short); end
     
     def display_ago; human_age(self.created_at); end
     
@@ -58,7 +63,7 @@ module Ricer4::Plugins::Quote
     end
     
     def display_list_item(number)
-      I18n.t('ricer4.plugins.quote.display_list_item',
+      t('ricer4.plugins.quote.display_list_item',
         id: self.id,
         by: self.user.display_name,
         ago: self.display_ago,
@@ -68,7 +73,7 @@ module Ricer4::Plugins::Quote
     end
     
     def display_show_item(number=1)
-      I18n.t('ricer4.plugins.quote.display_show_item',
+      t('ricer4.plugins.quote.display_show_item',
         id: self.id,
         message: self.display_cite,
         by: self.user.display_name,
